@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import io
 from io import BytesIO
+import chardet  # Ensure this is correctly indented
 
 # Load data
 st.set_page_config(page_title="Data Sweeper", layout="wide")
@@ -32,14 +33,14 @@ if uploaded_files:
         file_ext = os.path.splitext(file.name)[-1].lower()  # Get file extension
 
         # Read the file correctly
-      import chardet
-
-if file_ext == ".csv":
-    raw_data = file.getvalue()
-    detected_encoding = chardet.detect(raw_data)["encoding"]
-
-    df = pd.read_csv(io.StringIO(raw_data.decode(detected_encoding)), errors="replace")
-
+        if file_ext == ".csv":
+            try:
+                raw_data = file.getvalue()
+                detected_encoding = chardet.detect(raw_data)["encoding"]  # Auto-detect encoding
+                df = pd.read_csv(io.StringIO(raw_data.decode(detected_encoding)), errors="replace")
+            except UnicodeDecodeError:
+                st.error("Error reading CSV file. Unsupported encoding format.")
+                continue
         elif file_ext == ".xlsx":
             df = pd.read_excel(io.BytesIO(file.getvalue()), engine="openpyxl")
         else:
