@@ -29,12 +29,13 @@ uploaded_files = st.file_uploader("Upload your input CSV/XLSX file", type=["csv"
 if uploaded_files:
     for file in uploaded_files:
         file_ext = os.path.splitext(file.name)[-1].lower()
+        
+if file_ext == ".csv":
+    df = pd.read_csv(io.StringIO(file.getvalue().decode("utf-8")), errors="replace")
+    
+elif file_ext == ".xlsx":
+    df = pd.read_excel(io.BytesIO(file.getvalue()), engine="openpyxl")
 
-        if file_ext == ".csv":
-           df = pd.read_csv(file, encoding="utf-8", errors="replace")
-
-        elif file_ext == ".xlsx":
-            df = pd.read_excel(file,  engine="openpyxl")
         else:
             st.error(f"Unsupported file format: {file_ext}")
             continue
