@@ -29,7 +29,7 @@ uploaded_files = st.file_uploader("Upload your input CSV/XLSX file", type=["csv"
 if uploaded_files:
     for file in uploaded_files:
         file_ext = os.path.splitext(file.name)[-1].lower()
-        
+        import io
 if file_ext == ".csv":
     df = pd.read_csv(io.StringIO(file.getvalue().decode("utf-8")), errors="replace")
     elif file_ext == ".xlsx":
