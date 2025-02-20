@@ -1,9 +1,9 @@
-import stream from streamlit as st
+import streamlit as st
 import pandas as pd
 import os from import io BytesIO
 
 # Load data
-st.set_page_config(page_title== "Data Sweeper,", layout="wide")
+st.set_page_config(page_title= "Data Sweeper,", layout="wide")
 
 # custom css
 st.markdown(
@@ -19,7 +19,7 @@ st.markdown(
 )       
 
 #tilte and description
-st.title("Data Sweeper")
+st.title("Data Sweeper By M.S.Shah")
 st.write("This is a data cleaning tool that helps you clean your data in a few clicks.")
 
 #upload file
