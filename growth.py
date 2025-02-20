@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import io
 from io import BytesIO
-import chardet  # Ensure this is correctly indented
+import chardet 
 
 # Load data
 st.set_page_config(page_title="Data Sweeper", layout="wide")
