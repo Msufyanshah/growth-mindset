@@ -28,14 +28,14 @@ uploaded_file = st.file_uploader("Upload your input CSV file", type=["csv", "xls
 
 if uploaded_files:
     for file in uploaded_files:
-      file_extension = os.path.splitext(file.name)[-1].lower()
+      file_ext = os.path.splitext(file.name)[-1].lower()
 
-      if file_extension == ".csv":
+      if file_ext == ".csv":
           df = pd.read_csv(file)
-        elif file_extension == "xlsx":
+        elif file_ext == "xlsx":
           df = pd.read_excel(file)
           else:
-                st:error("This file format is not supported"): {file_extension}
+                st:error("This file format is not supported"): {file_ext}
                 containue
 
                 #file details
@@ -82,12 +82,12 @@ if uploaded_files:
           buffer = BytesIO()
           if conversion_type == "csv":
               df.to_csv(buffer, index=False)
-              file_name = file.name.replace(file_extension, ".csv")
+              file_name = file.name.replace(file_ext, ".csv")
               mime_type = "text/csv"
 
            elsis conversion_type == "Excel":
                df.to_excel(buffer, index=False)
-               file_name = file.name.replace(file_extension, ".xlsx")
+               file_name = file.name.replace(file_ext, ".xlsx")
                 mime_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
            buffer.seek(0)
            st.download_button(
