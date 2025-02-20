@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import os
+import io
 from io import BytesIO
 
 # Load data
@@ -28,16 +29,16 @@ uploaded_files = st.file_uploader("Upload your input CSV/XLSX file", type=["csv"
 
 if uploaded_files:
     for file in uploaded_files:
-        file_ext = os.path.splitext(file.name)[-1].lower()
-        import io
-if file_ext == ".csv":
-    df = pd.read_csv(io.StringIO(file.getvalue().decode("utf-8")), errors="replace")
-    elif file_ext == ".xlsx":
-    df = pd.read_excel(io.BytesIO(file.getvalue()), engine="openpyxl")
+        file_ext = os.path.splitext(file.name)[-1].lower()  # Get file extension
 
+        # Read the file correctly
+        if file_ext == ".csv":
+            df = pd.read_csv(io.StringIO(file.getvalue().decode("utf-8")), errors="replace")
+        elif file_ext == ".xlsx":
+            df = pd.read_excel(io.BytesIO(file.getvalue()), engine="openpyxl")
         else:
             st.error(f"Unsupported file format: {file_ext}")
-            continue
+            continue  # Skip invalid file formats
 
         # File Preview
         st.subheader(f"Preview of {file.name}")
@@ -85,7 +86,7 @@ if file_ext == ".csv":
                 file_name = file.name.replace(file_ext, ".csv")
                 mime_type = "text/csv"
             elif conversion_type == "Excel":
-                df.to_excel(buffer, index=False)
+                df.to_excel(buffer, index=False, engine="openpyxl")
                 file_name = file.name.replace(file_ext, ".xlsx")
                 mime_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
