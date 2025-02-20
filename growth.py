@@ -32,8 +32,14 @@ if uploaded_files:
         file_ext = os.path.splitext(file.name)[-1].lower()  # Get file extension
 
         # Read the file correctly
-        if file_ext == ".csv":
-            df = pd.read_csv(io.StringIO(file.getvalue().decode("utf-8")), errors="replace")
+      import chardet
+
+if file_ext == ".csv":
+    raw_data = file.getvalue()
+    detected_encoding = chardet.detect(raw_data)["encoding"]
+
+    df = pd.read_csv(io.StringIO(raw_data.decode(detected_encoding)), errors="replace")
+
         elif file_ext == ".xlsx":
             df = pd.read_excel(io.BytesIO(file.getvalue()), engine="openpyxl")
         else:
